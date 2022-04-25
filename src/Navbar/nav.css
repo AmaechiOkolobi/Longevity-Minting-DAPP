@@ -1,0 +1,42 @@
+/* Naigation Bar */
+
+.navbar {
+	box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
+	display: block;
+}
+
+.navbar-brand {
+	font-size: 2.5rem;
+	/* font-weight: bold; */
+}
+
+.nav-item {
+	padding: 0 10px;
+}
+
+.nav-dissapear {
+	transition-timing-function: ease-in;
+	transition: 0.1s;
+}
+
+.nav-col {
+	/* Changed colored*/
+	background-color: #fffcfc;
+}
+
+.nav-btn {
+	position: "relative";
+	text-align: "center";
+	background-color: #d8f3ff; /* changed color*/
+	border-color: #d8f3ff; /* changed color*/
+	border-radius: 15px;
+	padding: 10px 25px 10px 25px;
+	color: #00aeff;
+}
+
+@media screen and (max-width: 991px) {
+	.nav-resize {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+}
