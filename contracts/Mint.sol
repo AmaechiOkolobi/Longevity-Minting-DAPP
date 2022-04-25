@@ -11,8 +11,8 @@ contract Mint is ERC20 {
 
   uint maxMintAmount = 5;
 
-  function setWhitelist() external {
-    _whitelist[msg.sender] = 0;
+  function setWhitelist(address _in) external {
+    _whitelist[_in] = 0;
 }
 
   constructor() payable ERC20("Longevity", "LGY") {
