@@ -255,8 +255,8 @@
       ]
     },
     "C:\\Users\\nogazi\\mintpage\\contracts\\Mint.sol": {
-      "lastModificationDate": 1650900836761,
-      "contentHash": "4b2fc69c1c075edc3ab9669d157ccfa6",
+      "lastModificationDate": 1651064806756,
+      "contentHash": "29d038744156942ca2842d8646a6a7b6",
       "sourceName": "contracts/Mint.sol",
       "solcConfig": {
         "version": "0.8.4",

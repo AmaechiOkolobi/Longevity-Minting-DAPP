@@ -13,14 +13,14 @@ contract Mint is ERC20 {
 
   function setWhitelist(address _in) external {
     _whitelist[_in] = 0;
-}
+  }
 
   constructor() payable ERC20("Longevity", "LGY") {
     minter = msg.sender; 
   }
 
-  function mint(uint256 amount) public {
-		require(_whitelist[msg.sender] + amount < maxMintAmount, "Exceeded Max Mint Allocated");
+  function mint(uint256 amount) public payable {
+		// require(_whitelist[msg.sender] + amount < maxMintAmount, "Exceeded Max Mint Allocated");
 		_mint(msg.sender, amount);
     _whitelist[msg.sender]+=amount;
 	}
