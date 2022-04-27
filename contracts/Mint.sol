@@ -20,7 +20,7 @@ contract Mint is ERC20 {
   }
 
   function mint(uint256 amount) public payable {
-		// require(_whitelist[msg.sender] + amount < maxMintAmount, "Exceeded Max Mint Allocated");
+		require(_whitelist[msg.sender] + amount < maxMintAmount, "Exceeded Max Mint Allocated");
 		_mint(msg.sender, amount);
     _whitelist[msg.sender]+=amount;
 	}
