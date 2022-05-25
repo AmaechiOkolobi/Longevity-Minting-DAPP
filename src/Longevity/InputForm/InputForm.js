@@ -1,5 +1,6 @@
 // import { ethers } from "hardhat";
 import React, {useState, useEffect} from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import Mint from './mint.js'
 
 export default function InputForm() {
@@ -9,6 +10,8 @@ export default function InputForm() {
 	const [defaultAccount, setDefaultAccount] = useState(null);
 	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
 	const [mints, setMints] = useState();
+	const [whitelistAddress, setWhitelistAddress] = useState('');
+	const [mintValue, setMintValue] = useState();
 
 	const connectWalletHandler =async () => {
 		if (window.ethereum && window.ethereum.isMetaMask) {
@@ -44,19 +47,17 @@ export default function InputForm() {
 
 	window.ethereum.on('chainChanged', chainChangedHandler);
 	
-	const mint_whitelist = async (event) => {
-		event.preventDefault();
-		const input = event.target.setText.value.toString()
+	const mint_whitelist = async () => {
 		try{
-			const tx = await Mint.methods.setWhitelist(input);
-			setMints(await Mint.methods.checkMint().send({from:account}))
+			const tx = await Mint.methods.setWhitelist(whitelistAddress).send({from:account});
+			// setMints(await Mint.methods.checkMint().send({from:account}))
 		}catch(err){
 			setErrorMessage(err.message)
 		}
 	}
 	
 	const mintButton = async () => {
-		await Mint.methods.mint('1').call({from:account})
+		await Mint.methods.mint(mintValue).call({from:account})
 		const newBal = await Mint.methods.balanceOf(account).send({from: account})
 		setBalance(newBal)
 		setMints(await Mint.methods.checkMint().call({from:account}))
@@ -64,24 +65,53 @@ export default function InputForm() {
 	}
 
 		return (
-			<div>
-			<h4> {"CONNECT WALLET"} </h4>
-				<button onClick={connectWalletHandler}>{connButtonText}</button>
-				<div>
-					<h3>Address: {defaultAccount}</h3>
-				</div>
-				<form onSubmit={mint_whitelist}>
-					<input id="setText" type="string"/>
-					<button type={"submit"}> Whitelist Address </button>
-				</form>
-				{/* Mints Used: {mints} */}
-				<div>
-					<button onClick={mintButton} style={{marginTop: '5em'}}> 
-					Mint 10 Tokens 
-					</button>
-				</div>
-				{/* {balance} */}
-				{errorMessage}
-			</div>
+			<Form>
+				<Form.Group className="mb-3" controlId="formBasicEmail">
+				<Button
+					onClick={connectWalletHandler}
+					variant="info"
+					style={{ width: "150px", maring: "auto", textAlign: "center", marginBottom: '5px' }}
+				>
+					{connButtonText}
+				</Button>
+				<Form.Label>
+					<strong>Address: {defaultAccount}</strong>
+				</Form.Label>
+				</Form.Group>
+				<Form.Group>
+					<Form.Label>
+						<strong>Whitelist User</strong>
+					</Form.Label>
+					<Form.Control 
+						onChange={event =>setWhitelistAddress(event.target.value)} 
+						type="text" 
+						placeholder="Enter Address: 0x...." />
+					<Button
+					onClick={mint_whitelist}
+					variant="info"
+					style={{ width: "150px", maring: "auto", textAlign: "center", marginTop: '10px' }}
+					>
+						Whitelist
+					</Button>
+				</Form.Group>
+				<Form.Group onSubmit={mintButton} style={{marginTop:'10px'}}>
+					<Form.Label>
+						<strong>Mint Tokens</strong>
+					</Form.Label>
+					<Form.Control
+						onChange={event => setMintValue(event.target.value)}
+						type="number"
+						placeholder="Amount Of Tokens"
+					>
+					</Form.Control>
+					<Button
+						onClick={mintButton}
+						variant="info"
+						style={{ width: "150px", maring: "auto", textAlign: "center", marginTop: '10px' }}
+					>
+						Mint Tokens
+					</Button>
+				</Form.Group>
+			</Form>
 		);
 }
